@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSP_Tabu_Search"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="TSP Tabu Search [Wild West Edition]" Height="350" Width="767.613" Background="#FF3AA04D" WindowStartupLocation="CenterScreen" Cursor="Cross" Foreground="Black">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="421*"/>
+            <ColumnDefinition Width="144*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Wybierz Plik" Margin="7,85,0,0" VerticalAlignment="Top" AutomationProperties.Name="buttonSelectFile" Click="buttonSelectFile_Click" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="120">
+            <Button.RenderTransform>
+                <TransformGroup>
+
+                    <SkewTransform AngleX="10"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <TextBox Text="Status:" Margin="136,0,0,0" Name="labelStatus" UseLayoutRounding="True" Background="#FF95CAF0" FontFamily="Rockwell Condensed" FontSize="20" Cursor="Cross" Grid.ColumnSpan="2"/>
+        <Label Content="Max czas (s):" FontFamily="Rockwell Condensed" FontSize="20" Margin="19,10,0,0" HorizontalAlignment="Left" Width="95" Height="29" VerticalAlignment="Top"/>
+        <TextBox Height="28" Margin="10,44,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Name="textBoxMaxTime" FontFamily="Rockwell Condensed" FontSize="20" RenderTransformOrigin="0.689,0.425" HorizontalAlignment="Left" Width="119" >
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <Button Content="Wykonaj!" Height="31" Margin="6,123,0,0" VerticalAlignment="Top" AutomationProperties.Name="buttonTSP" Click="Button_Click" RenderTransformOrigin="0.5,0.5" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" HorizontalAlignment="Left" Width="119">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="10"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Label Content="TSP" HorizontalAlignment="Left" Margin="27,166,0,0" VerticalAlignment="Top" Height="75" Width="74" FontFamily="Rockwell Condensed" FontSize="50"/>
+        <Label Content="Author: Filip Ignacy" HorizontalAlignment="Left" Margin="0,283,0,0" Width="131" FontWeight="Bold"/>
     </Grid>
 </Window>

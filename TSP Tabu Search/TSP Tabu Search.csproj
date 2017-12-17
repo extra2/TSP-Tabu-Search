@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -44,6 +45,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TspLibNet, Version=1.0.5937.42569, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TSPLib.Net.1.1.5\lib\net451\TspLibNet.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -54,6 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MatrixTable.cs" />
+    <Compile Include="TSP.cs" />
+    <Compile Include="TSPAsymetric.cs" />
+    <Compile Include="TSPSymetric.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -85,13 +93,113 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Testy\ATSP\br17.atsp" />
+    <None Include="Testy\ATSP\ft53.atsp" />
+    <None Include="Testy\ATSP\ft70.atsp" />
+    <None Include="Testy\ATSP\ftv170.atsp" />
+    <None Include="Testy\ATSP\ftv33.atsp" />
+    <None Include="Testy\ATSP\ftv35.atsp" />
+    <None Include="Testy\ATSP\ftv38.atsp" />
+    <None Include="Testy\ATSP\ftv44.atsp" />
+    <None Include="Testy\ATSP\ftv47.atsp" />
+    <None Include="Testy\ATSP\ftv55.atsp" />
+    <None Include="Testy\ATSP\ftv64.atsp" />
+    <None Include="Testy\ATSP\ftv70.atsp" />
+    <None Include="Testy\ATSP\kro124p.atsp" />
+    <None Include="Testy\ATSP\p43.atsp" />
+    <None Include="Testy\ATSP\rbg323.atsp" />
+    <None Include="Testy\ATSP\rbg358.atsp" />
+    <None Include="Testy\ATSP\rbg403.atsp" />
+    <None Include="Testy\ATSP\rbg443.atsp" />
+    <None Include="Testy\ATSP\ry48p.atsp" />
+    <None Include="Testy\TSP\a280.tsp" />
+    <None Include="Testy\TSP\berlin52.tsp" />
+    <None Include="Testy\TSP\bier127.tsp" />
+    <None Include="Testy\TSP\brd14051.tsp" />
+    <None Include="Testy\TSP\ch130.tsp" />
+    <None Include="Testy\TSP\ch150.tsp" />
+    <None Include="Testy\TSP\d1291.tsp" />
+    <None Include="Testy\TSP\d15112.tsp" />
+    <None Include="Testy\TSP\d1655.tsp" />
+    <None Include="Testy\TSP\d18512.tsp" />
+    <None Include="Testy\TSP\d198.tsp" />
+    <None Include="Testy\TSP\d2103.tsp" />
+    <None Include="Testy\TSP\d493.tsp" />
+    <None Include="Testy\TSP\d657.tsp" />
+    <None Include="Testy\TSP\eil101.tsp" />
+    <None Include="Testy\TSP\eil51.tsp" />
+    <None Include="Testy\TSP\eil76.tsp" />
+    <None Include="Testy\TSP\fl1400.tsp" />
+    <None Include="Testy\TSP\fl1577.tsp" />
+    <None Include="Testy\TSP\fl3795.tsp" />
+    <None Include="Testy\TSP\fl417.tsp" />
+    <None Include="Testy\TSP\fnl4461.tsp" />
+    <None Include="Testy\TSP\gil262.tsp" />
+    <None Include="Testy\TSP\kroA100.tsp" />
+    <None Include="Testy\TSP\kroA150.tsp" />
+    <None Include="Testy\TSP\kroA200.tsp" />
+    <None Include="Testy\TSP\kroB100.tsp" />
+    <None Include="Testy\TSP\kroB150.tsp" />
+    <None Include="Testy\TSP\kroB200.tsp" />
+    <None Include="Testy\TSP\kroC100.tsp" />
+    <None Include="Testy\TSP\kroD100.tsp" />
+    <None Include="Testy\TSP\kroE100.tsp" />
+    <None Include="Testy\TSP\lin105.tsp" />
+    <None Include="Testy\TSP\lin318.tsp" />
+    <None Include="Testy\TSP\linhp318.tsp" />
+    <None Include="Testy\TSP\nrw1379.tsp" />
+    <None Include="Testy\TSP\p654.tsp" />
+    <None Include="Testy\TSP\pcb1173.tsp" />
+    <None Include="Testy\TSP\pcb3038.tsp" />
+    <None Include="Testy\TSP\pcb442.tsp" />
+    <None Include="Testy\TSP\pr1002.tsp" />
+    <None Include="Testy\TSP\pr107.tsp" />
+    <None Include="Testy\TSP\pr124.tsp" />
+    <None Include="Testy\TSP\pr136.tsp" />
+    <None Include="Testy\TSP\pr144.tsp" />
+    <None Include="Testy\TSP\pr152.tsp" />
+    <None Include="Testy\TSP\pr226.tsp" />
+    <None Include="Testy\TSP\pr2392.tsp" />
+    <None Include="Testy\TSP\pr264.tsp" />
+    <None Include="Testy\TSP\pr299.tsp" />
+    <None Include="Testy\TSP\pr439.tsp" />
+    <None Include="Testy\TSP\pr76.tsp" />
+    <None Include="Testy\TSP\rat195.tsp" />
+    <None Include="Testy\TSP\rat575.tsp" />
+    <None Include="Testy\TSP\rat783.tsp" />
+    <None Include="Testy\TSP\rat99.tsp" />
+    <None Include="Testy\TSP\rd100.tsp" />
+    <None Include="Testy\TSP\rd400.tsp" />
+    <None Include="Testy\TSP\rl11849.tsp" />
+    <None Include="Testy\TSP\rl1304.tsp" />
+    <None Include="Testy\TSP\rl1323.tsp" />
+    <None Include="Testy\TSP\rl1889.tsp" />
+    <None Include="Testy\TSP\rl5915.tsp" />
+    <None Include="Testy\TSP\rl5934.tsp" />
+    <None Include="Testy\TSP\si1032.tsp" />
+    <None Include="Testy\TSP\st70.tsp" />
+    <None Include="Testy\TSP\ts225.tsp" />
+    <None Include="Testy\TSP\tsp225.tsp" />
+    <None Include="Testy\TSP\u1060.tsp" />
+    <None Include="Testy\TSP\u1432.tsp" />
+    <None Include="Testy\TSP\u159.tsp" />
+    <None Include="Testy\TSP\u1817.tsp" />
+    <None Include="Testy\TSP\u2152.tsp" />
+    <None Include="Testy\TSP\u2319.tsp" />
+    <None Include="Testy\TSP\u574.tsp" />
+    <None Include="Testy\TSP\u724.tsp" />
+    <None Include="Testy\TSP\usa13509.tsp" />
+    <None Include="Testy\TSP\vm1084.tsp" />
+    <None Include="Testy\TSP\vm1748.tsp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
