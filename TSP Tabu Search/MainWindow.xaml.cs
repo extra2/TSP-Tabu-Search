@@ -46,6 +46,9 @@ namespace TSP_Tabu_Search
                 labelStatus.Text = status;
             }
         }
-
+        private void ButtonGenetic_Click(object sender, RoutedEventArgs e)
+        {
+            int time = Int32.Parse(textBoxMaxTime.Text);
+        }
     }
 }

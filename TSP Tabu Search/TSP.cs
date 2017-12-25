@@ -31,12 +31,11 @@ namespace TSP_Tabu_Search
                         return status;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("Can't load file " + filename);
             }
             return status;
         }
-
     }
 }
