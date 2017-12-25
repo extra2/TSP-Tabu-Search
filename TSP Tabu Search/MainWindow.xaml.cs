@@ -41,7 +41,7 @@ namespace TSP_Tabu_Search
             int time = Int32.Parse(textBoxMaxTime.Text);
             if (fileName != "")
             {
-                string status = new TSP().StartTsp(time, fileName);
+                string status = new TSP().StartTsp(time, fileName, false);
                 labelStatus.TextWrapping = TextWrapping.Wrap;
                 labelStatus.Text = status;
             }

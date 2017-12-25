@@ -2,7 +2,7 @@
 
 namespace TSP_Tabu_Search
 {
-    public class City
+    public class City // to wywalic, lista nodow
     {
         // Member variables
         public double x;

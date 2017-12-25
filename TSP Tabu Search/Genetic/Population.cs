@@ -6,13 +6,10 @@ namespace TSP_Tabu_Search
 {
     public class Population
     {
-
-        // Member variables
         public List<Tour> p;
-
         public double maxFit;
         public Random r = new Random();
-        // ctor
+
         public Population(List<Tour> l)
         {
             p = l;
@@ -25,7 +22,7 @@ namespace TSP_Tabu_Search
             List<Tour> tmp = new List<Tour>();
 
             for (int i = 0; i < n; ++i)
-                tmp.Add(t.shuffle());
+                tmp.Add(t.shuffle()); // losowe dogi
 
             return new Population(tmp);
         }
@@ -48,17 +45,15 @@ namespace TSP_Tabu_Search
 
         public Population genNewPop(int n) // generuje nowa populacje n elementowa
         {
-            List<Tour> p = new List<Tour>();
+            List<int> p = new List<int>();
 
             for (int i = 0; i < n; ++i)
             {
                 Tour t = selectTour().crossover(selectTour()); // wybieram 2 drogi 
-
                 foreach (City c in t.t)
                 {
                     if (r.NextDouble() < TSPGeneticSymetric.canMutRate) t = t.mutate();
                 }
-
                 p.Add(t);
             }
 
