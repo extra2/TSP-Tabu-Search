@@ -58,7 +58,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Genetic\City.cs" />
     <Compile Include="Genetic\MatrixTable.cs" />
     <Compile Include="Genetic\Population.cs" />
     <Compile Include="Genetic\Tour.cs" />

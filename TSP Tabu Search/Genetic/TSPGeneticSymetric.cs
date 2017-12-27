@@ -12,28 +12,36 @@ namespace TSP_Tabu_Search
     class TSPGeneticSymetric
     {
         public static int maxTimeInSec; // kryterium stopu
-        public static double mutRate = 0.03; // wsp mutacji
+        public static double mutRate = 0.01; // wsp mutacji
         public static double canMutRate = 0.8; // wsp krzyzowania
-        public static int elitism; // ile najlepszych miast wybieram
+        public static int numOfBestCities; // ile najlepszych miast wybieram
         public static int popSize; // rozmiar populacji
         public static int numCities; // ilość miast
         public const int unlimited = 999999999;
         public static List<Node2D> cityNodes = new List<Node2D>();
         public static int [,]nodesAsTab;
-        public string SolveTSP(TravelingSalesmanProblem problem, int maxTime, int populationSize)
+        public string SolveTSP(TravelingSalesmanProblem problem, int maxTime, int populationSize, int [,]asymetricMateix, bool isAsimetric)
         {
-            numCities = problem.NodeProvider.CountNodes();
-            popSize = 50;//(int)(numCities*0.1); // ----------------------------
-            elitism = popSize / 10; // -------------------------------- te liczby mają znaczenie
+            popSize = 50;// rozmiar populacji, wpływa na prędkość działania oraz wynik
+            numOfBestCities = popSize / 10; // "Strategia elitarna" - zachowuje najlepsze geny
             maxTimeInSec = maxTime; // ------------------------------------
-            foreach(var c in problem.NodeProvider.GetNodes()) // dodaję węzły do listy
+            if (isAsimetric == false) // jeśli wczytano problem symetryczny
             {
-                cityNodes.Add((Node2D)c);
+                numCities = problem.NodeProvider.CountNodes();
+                foreach (var c in problem.NodeProvider.GetNodes()) // dodaję węzły do listy
+                {
+                    cityNodes.Add((Node2D) c);
+                }
+                nodesAsTab = new int[numCities, numCities]; // tablic na odległości między miastami (już obliczone)
+                calcDistances(); // wyliczam dystanse, aby nie liczyc ich kilka razy
             }
-            nodesAsTab = new int[numCities, numCities]; // tablic na odległości między miastami (już obliczone)
-            calcDistances(); // wyliczam dystanse, aby nie liczyc ich kilka razy
-            Tour dest = generateTour(numCities); // losuję pierwszą drogę
-            Population p = Population.randomized(dest, popSize); // na jej podstawie losuję populację
+            else // jeśli wczytano problem asymetryczny
+            {
+                numCities = (int)Math.Sqrt(asymetricMateix.Length);
+                nodesAsTab = asymetricMateix;
+            }
+            Tour firstTour = generateTour(numCities); // losuję pierwszą drogę
+            Population population = Population.randomPopulation(firstTour, popSize); // na jej podstawie losuję populację
 
             bool better = true;
             DateTime startTime = DateTime.Now;
@@ -42,32 +50,25 @@ namespace TSP_Tabu_Search
 
                 if (better)
                 {
-                    display(p);
+                    display(population);
                     File.AppendAllText("1.txt", "\r\n" + (DateTime.Now - startTime).TotalSeconds.ToString());
                 }
 
                     better = false;
-                double oldFit = p.maxFit;
+                double oldFit = population.maxFit;
 
-                p = p.evolve();
-                if (p.maxFit > oldFit)
+                population = population.evolve();
+                if (population.maxFit > oldFit)
                     better = true;
             }
             return "";
         }
-        public static Tour generateTour(int n)
+        public static Tour generateTour(int n) // generuję drogę 1...n
         {
             List<int> t = new List<int>();
-            List<int> citiesNotUsed = new List<int>();
             for (int i = 0; i < n; ++i)
             {
-                citiesNotUsed.Add(i + 1);
-            }
-            while (citiesNotUsed.Count > 0)
-            {
-                int numOfC = new Random().Next(citiesNotUsed.Count-1);
-                t.Add(citiesNotUsed[numOfC]);
-                citiesNotUsed.RemoveAt(numOfC);
+                t.Add(i+1);
             }
             return new Tour(t);
         }
@@ -93,7 +94,7 @@ namespace TSP_Tabu_Search
         {
             Tour best = p.findBest();
             string x = "\r\nGeneration " +
-                                     "\r\nBest fitness:  " + best.fitness.ToString() +
+                                     "\r\nBest fitness:  " +// best.fitness.ToString() +
                                      "\r\nBest distance: " + best.distance;
             File.AppendAllText("1.txt", x);
         }

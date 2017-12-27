@@ -17,12 +17,12 @@ namespace TSP_Tabu_Search
         }
 
         // Functionality
-        public static Population randomized(Tour t, int n) // tworzę populację losowych dróg
+        public static Population randomPopulation(Tour t, int n) // tworzę populację losowych dróg
         {
             List<Tour> tmp = new List<Tour>();
 
             for (int i = 0; i < n; ++i)
-                tmp.Add(t.shuffle()); // losowe dogi
+                tmp.Add(t.randomTour()); // losowe dogi
 
             return new Population(tmp); // zwracam populację
         }
@@ -32,27 +32,24 @@ namespace TSP_Tabu_Search
             return tourList.Max(t => t.fitness);
         }
 
-        public Tour selectTour()
+        public Tour selectRandomTour()
         {
-            while (true)
-            {
-                int i = r.Next(0, TSPGeneticSymetric.popSize);
-
-                if (r.NextDouble() < tourList[i].fitness / maxFit)
-                    return new Tour(tourList[i].t);
-            }
+            return new Tour(tourList[r.Next(0, tourList.Count)].tour);
         }
         // 3 etap ewolucji: reprodukcja
-        public Population genNewPop(int n) // generuje nowa populacje n elementowa
+        public Population genNewPop(int n) // generuje nowa populacje n elementowa 
         {
             List<Tour> p = new List<Tour>();
 
             for (int i = 0; i < n; ++i)
             {
-                Tour t = selectTour().crossover(selectTour()); // wybieram 2 drogi 
-                foreach (int c in t.t)
+                // warunek mutacji nr 1 - możliwość mutacji 80% (z założeń zadania):
+                if (r.NextDouble() > TSPGeneticSymetric.canMutRate) continue;  // nie mutuję
+
+                Tour t = selectRandomTour().crossover(selectRandomTour()); // wybieram 2 drogi, krzyżuję je ze sobą
+                foreach (int c in t.tour) // mutuję 
                 {
-                    if (r.NextDouble() < TSPGeneticSymetric.canMutRate) t = t.mutate();
+                    t = t.mutate(); 
                 }
                 p.Add(t);
             }
@@ -81,13 +78,13 @@ namespace TSP_Tabu_Search
                 if (t.fitness == maxFit)
                     return t;
             }
-            return null; // jesli do tego dojdzie, to cos jest zle - najprawdopodobniej mamy wieksza populaje elit niz liczbe miast
+            return null; // jesli do tego dojdzie, to cos jest zle
         }
 
         public Population evolve()
         {
-            Population best = findNBestTours(TSPGeneticSymetric.elitism);
-            Population np = genNewPop(TSPGeneticSymetric.popSize - TSPGeneticSymetric.elitism); // nowa populacja, wielkosc populacji - ilosc "najlepszych"
+            Population best = findNBestTours(TSPGeneticSymetric.numOfBestCities);
+            Population np = genNewPop(TSPGeneticSymetric.popSize - TSPGeneticSymetric.numOfBestCities); // nowa populacja, wielkosc populacji - ilosc "najlepszych"
             return new Population(best.tourList.Concat(np.tourList).ToList()); // połączenie powyższych populacji i zwrócenie sumy
         }
     }
