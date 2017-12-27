@@ -49,6 +49,12 @@ namespace TSP_Tabu_Search
         private void ButtonGenetic_Click(object sender, RoutedEventArgs e)
         {
             int time = Int32.Parse(textBoxMaxTime.Text);
+            if (fileName != "")
+            {
+                string status = new TSP().StartTsp(time, fileName, true);
+                labelStatus.TextWrapping = TextWrapping.Wrap;
+                labelStatus.Text = status;
+            }
         }
     }
 }

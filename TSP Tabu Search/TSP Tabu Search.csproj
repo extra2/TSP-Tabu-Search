@@ -58,15 +58,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="City.cs" />
-    <Compile Include="Env.cs" />
-    <Compile Include="MatrixTable.cs" />
-    <Compile Include="Population.cs" />
-    <Compile Include="Tour.cs" />
+    <Compile Include="Genetic\City.cs" />
+    <Compile Include="Genetic\MatrixTable.cs" />
+    <Compile Include="Genetic\Population.cs" />
+    <Compile Include="Genetic\Tour.cs" />
     <Compile Include="TSP.cs" />
-    <Compile Include="Tabu Classes\TSPAsymetric.cs" />
-    <Compile Include="Tabu Classes\TSPSymetric.cs" />
-    <Compile Include="TSPGeneticSymetric.cs" />
+    <Compile Include="Tabu Search\TSPAsymetric.cs" />
+    <Compile Include="Tabu Search\TSPSymetric.cs" />
+    <Compile Include="Genetic\TSPGeneticSymetric.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

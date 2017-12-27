@@ -29,11 +29,11 @@ namespace TSP_Tabu_Search
             List<int> tmp = new List<int>(t); // kopiuję listę, żeby nie przekazać wskaźnika
             int n = tmp.Count;
 
-            while (n > 1) // losuję sobie dowolną drogę
+            while (n > 1) // losuję dowolną drogę
             {
                 n--;
-                int k = r.Next(n + 1);
-                int v = tmp[k];
+                int k = r.Next(n + 1); // losuję wierzchołek
+                int v = tmp[k]; // zamieniam go z innym
                 tmp[k] = tmp[n];
                 tmp[n] = v;
             }
@@ -45,9 +45,9 @@ namespace TSP_Tabu_Search
         {
             int i = r.Next(0, m.t.Count);
             int j = r.Next(i, m.t.Count);
-            List<City> s = t.GetRange(i, j - i + 1);
-            List<City> ms = m.t.Except(s).ToList();
-            List<City> c = ms.Take(i)
+            List<int> s = t.GetRange(i, j - i + 1);
+            List<int> ms = m.t.Except(s).ToList();
+            List<int> c = ms.Take(i)
                 .Concat(s)
                 .Concat(ms.Skip(i))
                 .ToList();
@@ -56,13 +56,13 @@ namespace TSP_Tabu_Search
 
         public Tour mutate()
         {
-            List<City> tmp = new List<City>(t);
+            List<int> tmp = new List<int>(t);
 
             if (r.NextDouble() < TSPGeneticSymetric.mutRate)
             {
                 int i = r.Next(0, t.Count);
                 int j = r.Next(0, t.Count);
-                City v = tmp[i];
+                int v = tmp[i];
                 tmp[i] = tmp[j];
                 tmp[j] = v;
             }
@@ -73,9 +73,9 @@ namespace TSP_Tabu_Search
         private double calcDist()
         {
             double total = 0;
-            for (int i = 0; i < t.Count; ++i)
-                total += t[i].distanceTo(t[(i + 1) % t.Count]);
-
+            for (int i = 0; i < t.Count - 2; ++i)
+                total += TSPGeneticSymetric.nodesAsTab[t[i]-1, t[i+1]-1];
+            total += TSPGeneticSymetric.nodesAsTab[t[t.Count - 1]-1, t[0]-1];
             return total;
 
             // Execution time is doubled by using linq in this case
