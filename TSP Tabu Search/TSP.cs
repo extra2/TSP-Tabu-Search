@@ -9,7 +9,7 @@ namespace TSP_Tabu_Search
         private TravelingSalesmanProblem problem;
         private MatrixTable _matrixTable;
         private string status = "";
-        public string StartTsp(int MaxTime, string filename, bool isGenetic)
+        public string StartTsp(int MaxTime, string filename, bool isGenetic, int population)
         {
             //try
             //{
@@ -18,12 +18,12 @@ namespace TSP_Tabu_Search
                 {
                     case ProblemType.TSP:
                         if(isGenetic == false)status = new TSPSymetric(problem, MaxTime).SolveTSP();
-                        else status = new TSPGeneticSymetric().SolveTSP(problem, MaxTime, 60, null, false);
+                        else status = new TSPGenetic().SolveTSP(problem, MaxTime, population, null, false);
                         break;
                     case ProblemType.ATSP:
                         _matrixTable = new MatrixTable(filename);
                         if (isGenetic == false) status = new TSPAsymetric(MaxTime, _matrixTable).SolveTSP();
-                        else status = new TSPGeneticSymetric().SolveTSP(null, MaxTime, 60, _matrixTable.Matrix, true);
+                        else status = new TSPGenetic().SolveTSP(null, MaxTime, population, _matrixTable.Matrix, true);
                     break;
                     default:
                         MessageBox.Show("Loaded file is not tsp/atsp file. returning.");

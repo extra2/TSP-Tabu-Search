@@ -9,12 +9,12 @@ using TspLibNet.Graph.Nodes;
 
 namespace TSP_Tabu_Search
 {
-    class TSPGeneticSymetric
+    class TSPGenetic
     {
         public static int maxTimeInSec; // kryterium stopu
         public static double mutRate = 0.01; // wsp mutacji
         public static double canMutRate = 0.8; // wsp krzyzowania
-        public static int numOfBestCities; // ile najlepszych miast wybieram
+        public static int numOfBestRoads; // ile najlepszych dróg wybieram
         public static int popSize; // rozmiar populacji
         public static int numCities; // ilość miast
         public const int unlimited = 999999999;
@@ -23,7 +23,7 @@ namespace TSP_Tabu_Search
         public string SolveTSP(TravelingSalesmanProblem problem, int maxTime, int populationSize, int [,]asymetricMateix, bool isAsimetric)
         {
             popSize = 50;// rozmiar populacji, wpływa na prędkość działania oraz wynik
-            numOfBestCities = popSize / 10; // "Strategia elitarna" - zachowuje najlepsze geny
+            numOfBestRoads = popSize / 10; // "Strategia elitarna" - zachowuje najlepsze geny
             maxTimeInSec = maxTime; // ------------------------------------
             if (isAsimetric == false) // jeśli wczytano problem symetryczny
             {
@@ -50,18 +50,17 @@ namespace TSP_Tabu_Search
 
                 if (better)
                 {
-                    display(population);
+                    saveToFile(population);
                     File.AppendAllText("1.txt", "\r\n" + (DateTime.Now - startTime).TotalSeconds.ToString());
                 }
 
                     better = false;
-                double oldFit = population.maxFit;
+                double oldBestTour = population.bestDistance;
 
-                population = population.evolve();
-                if (population.maxFit > oldFit)
-                    better = true;
+                population = population.createNewPopulation();
+                if (population.bestDistance < oldBestTour) better = true;
             }
-            return "";
+            return prepareStatus(population);
         }
         public static Tour generateTour(int n) // generuję drogę 1...n
         {
@@ -90,12 +89,25 @@ namespace TSP_Tabu_Search
                 }
             }
         }
-        public static void display(Population p)
+
+        public string prepareStatus(Population p)
+        {
+            string status = "";
+            Tour best = p.findBest();
+            status += "Najlepszy koszt drogi: " + best.distance.ToString();
+            status += "\r\nDroga: ";
+            for(int i = 0; i < numCities-1; i++)
+            {
+                status += best.tour[i].ToString() + "->";
+            }
+            status += best.tour.Last().ToString();
+            return status;
+
+        }
+        public static void saveToFile(Population p) // to collect data
         {
             Tour best = p.findBest();
-            string x = "\r\nGeneration " +
-                                     "\r\nBest fitness:  " +// best.fitness.ToString() +
-                                     "\r\nBest distance: " + best.distance;
+            string x =  "\r\nBest found distance: " + best.distance;
             File.AppendAllText("1.txt", x);
         }
     }

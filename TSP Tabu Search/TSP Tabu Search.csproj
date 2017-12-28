@@ -64,7 +64,7 @@
     <Compile Include="TSP.cs" />
     <Compile Include="Tabu Search\TSPAsymetric.cs" />
     <Compile Include="Tabu Search\TSPSymetric.cs" />
-    <Compile Include="Genetic\TSPGeneticSymetric.cs" />
+    <Compile Include="Genetic\TSPGenetic.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

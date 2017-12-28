@@ -7,29 +7,29 @@ namespace TSP_Tabu_Search
     public class Population
     {
         public List<Tour> tourList;
-        public double maxFit;
+        public double bestDistance;
         public Random r = new Random();
 
         public Population(List<Tour> l)
         {
             tourList = l;
-            maxFit = calcMaxFit();
+            bestDistance = findBestDistance();
         }
 
         // Functionality
         public static Population randomPopulation(Tour t, int n) // tworzę populację losowych dróg
         {
             List<Tour> tmp = new List<Tour>();
-
             for (int i = 0; i < n; ++i)
+            {
                 tmp.Add(t.randomTour()); // losowe dogi
-
+            }
             return new Population(tmp); // zwracam populację
         }
 
-        private double calcMaxFit()
+        private double findBestDistance()
         {
-            return tourList.Max(t => t.fitness);
+            return tourList.Min(t => t.distance);
         }
 
         public Tour selectRandomTour()
@@ -44,12 +44,12 @@ namespace TSP_Tabu_Search
             for (int i = 0; i < n; ++i)
             {
                 // warunek mutacji nr 1 - możliwość mutacji 80% (z założeń zadania):
-                if (r.NextDouble() > TSPGeneticSymetric.canMutRate) continue;  // nie mutuję
+                if (r.NextDouble() > TSPGenetic.canMutRate) continue;  // nie mutuję
 
-                Tour t = selectRandomTour().crossover(selectRandomTour()); // wybieram 2 drogi, krzyżuję je ze sobą
+                Tour t = selectRandomTour().cross(selectRandomTour()); // wybieram 2 drogi, krzyżuję je ze sobą
                 foreach (int c in t.tour) // mutuję 
                 {
-                    t = t.mutate(); 
+                    t = t.mutation(); 
                 }
                 p.Add(t);
             }
@@ -71,21 +71,21 @@ namespace TSP_Tabu_Search
             return new Population(best);
         }
 
-        public Tour findBest() // szuka najlepszej populacji
+        public Tour findBest() // szuka najlepszej drogi
         {
             foreach (Tour t in tourList)
             {
-                if (t.fitness == maxFit)
+                if (t.distance == bestDistance)
                     return t;
             }
             return null; // jesli do tego dojdzie, to cos jest zle
         }
 
-        public Population evolve()
+        public Population createNewPopulation() // nowa populacja = N najlepszych dróg + nowe drogi (rozmiar populacji - N najlepszych)
         {
-            Population best = findNBestTours(TSPGeneticSymetric.numOfBestCities);
-            Population np = genNewPop(TSPGeneticSymetric.popSize - TSPGeneticSymetric.numOfBestCities); // nowa populacja, wielkosc populacji - ilosc "najlepszych"
-            return new Population(best.tourList.Concat(np.tourList).ToList()); // połączenie powyższych populacji i zwrócenie sumy
+            Population bestTours = findNBestTours(TSPGenetic.numOfBestRoads); // znajduję N najlepszych dróg
+            Population newTours = genNewPop(TSPGenetic.popSize - TSPGenetic.numOfBestRoads); // nowa populacja, wielkosc populacji - ilosc "najlepszych" dróg
+            return new Population(bestTours.tourList.Concat(newTours.tourList).ToList()); // połączenie powyższych populacji i zwrócenie sumy
         }
     }
 }

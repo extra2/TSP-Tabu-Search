@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSP_Tabu_Search"
         mc:Ignorable="d"
-        Title="TSP Tabu Search [Wild West Edition]" Height="640.191" Width="943.741" Background="#FF3AA04D" WindowStartupLocation="CenterScreen" Cursor="Cross" Foreground="Black">
+        Title="TSP Tabu Search and Genetic Algorithm [Wild West Edition]" Height="435.191" Width="943.741" Background="#FF3AA04D" WindowStartupLocation="CenterScreen" Cursor="Cross" Foreground="Black" AllowsTransparency="True" WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="421*"/>
-            <ColumnDefinition Width="144*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Wybierz Plik" Margin="7,85,0,0" VerticalAlignment="Top" AutomationProperties.Name="buttonSelectFile" Click="buttonSelectFile_Click" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="120">
+        <Button Content="Wybierz Plik" Margin="7,150,0,0" VerticalAlignment="Top" AutomationProperties.Name="buttonSelectFile" Click="buttonSelectFile_Click" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="120" Height="27">
             <Button.RenderTransform>
                 <TransformGroup>
 
@@ -20,9 +20,9 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox Text="Status:" Margin="136,0,0,0" Name="labelStatus" UseLayoutRounding="True" Background="#FF95CAF0" FontFamily="Rockwell Condensed" FontSize="20" Cursor="Cross" Grid.ColumnSpan="2"/>
-        <Label Content="Max czas (s):" FontFamily="Rockwell Condensed" FontSize="20" Margin="19,10,0,0" HorizontalAlignment="Left" Width="95" Height="29" VerticalAlignment="Top"/>
-        <TextBox Height="28" Margin="10,44,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Name="textBoxMaxTime" FontFamily="Rockwell Condensed" FontSize="20" RenderTransformOrigin="0.689,0.425" HorizontalAlignment="Left" Width="119" >
+        <TextBox Text="Status:" Margin="136,0,0,0" Name="labelStatus" UseLayoutRounding="True" Background="#FFD6AD40" FontFamily="Rockwell Condensed" FontSize="20" Cursor="Cross"/>
+        <Label Content="Max czas (s):" FontFamily="Rockwell Condensed" FontSize="20" Margin="19,10,0,0" HorizontalAlignment="Left" Width="95" Height="34" VerticalAlignment="Top"/>
+        <TextBox Height="28" Margin="7,44,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Name="textBoxMaxTime" FontFamily="Rockwell Condensed" FontSize="20" RenderTransformOrigin="0.689,0.425" HorizontalAlignment="Left" Width="120" >
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -30,7 +30,7 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <Button Content="Tabu Search!" Height="31" Margin="7,117,0,0" VerticalAlignment="Top" AutomationProperties.Name="buttonTSP" Click="Button_Click" RenderTransformOrigin="0.5,0.5" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" HorizontalAlignment="Left" Width="119">
+        <Button Content="Tabu Search!" Height="31" Margin="7,182,0,0" VerticalAlignment="Top" AutomationProperties.Name="buttonTSP" Click="Button_Click" RenderTransformOrigin="0.5,0.5" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" HorizontalAlignment="Left" Width="120">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -38,8 +38,11 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Label Content="TSP" HorizontalAlignment="Left" Margin="25,189,0,0" VerticalAlignment="Top" Height="75" Width="74" FontFamily="Rockwell Condensed" FontSize="50" RenderTransformOrigin="0.453,1.187"/>
-        <Label Content="Author: Filip Ignacy" HorizontalAlignment="Left" Margin="0,568,0,0" Width="131" FontWeight="Bold"/>
-        <Button Content="Genetic!" HorizontalAlignment="Left" Margin="7,153,0,0" VerticalAlignment="Top" Width="118" Height="31" AutomationProperties.Name="buttonGenetic" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" Click="ButtonGenetic_Click"/>
+        <Label Content="TSP" HorizontalAlignment="Left" Margin="30,303,0,0" VerticalAlignment="Top" Height="75" Width="74" FontFamily="Rockwell Condensed" FontSize="50" RenderTransformOrigin="0.453,1.187"/>
+        <Label Content="Author: Filip Ignacy" HorizontalAlignment="Left" Margin="5,397,0,0" Width="131" FontWeight="Bold"/>
+        <Button Content="Genetic!" HorizontalAlignment="Left" Margin="7,218,0,0" VerticalAlignment="Top" Width="120" Height="31" AutomationProperties.Name="buttonGenetic" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" Click="ButtonGenetic_Click"/>
+        <TextBox Name="textBoxPopulaion" HorizontalAlignment="Left" Height="28" Margin="7,111,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="120" FontFamily="Rockwell Condensed" FontSize="20"/>
+        <Label Content="Population:" FontFamily="Rockwell Condensed" FontSize="20" Margin="19,77,0,0" HorizontalAlignment="Left" Width="95" Height="34" VerticalAlignment="Top"/>
+        <Button Content="Zakończ" HorizontalAlignment="Left" Margin="7,254,0,0" VerticalAlignment="Top" Width="120" Height="31" AutomationProperties.Name="buttonExit" Background="#FFFF4C4C" FontFamily="Rockwell Condensed" FontSize="20" Click="Button_Click_1"/>
     </Grid>
 </Window>
