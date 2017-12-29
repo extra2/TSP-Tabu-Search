@@ -22,7 +22,7 @@ namespace TSP_Tabu_Search
         public static int [,]nodesAsTab;
         public string SolveTSP(TravelingSalesmanProblem problem, int maxTime, int populationSize, int [,]asymetricMateix, bool isAsimetric)
         {
-            popSize = 50;// rozmiar populacji, wpływa na prędkość działania oraz wynik
+            popSize = populationSize;// rozmiar populacji, wpływa na prędkość działania oraz wynik
             numOfBestRoads = popSize / 10; // "Strategia elitarna" - zachowuje najlepsze geny
             maxTimeInSec = maxTime; // ------------------------------------
             if (isAsimetric == false) // jeśli wczytano problem symetryczny
@@ -100,7 +100,7 @@ namespace TSP_Tabu_Search
             {
                 status += best.tour[i].ToString() + "->";
             }
-            status += best.tour.Last().ToString();
+            status += best.tour[0].ToString();
             return status;
 
         }

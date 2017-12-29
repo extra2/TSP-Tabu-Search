@@ -37,22 +37,49 @@ namespace TSP_Tabu_Search
             return new Tour(tourList[r.Next(0, tourList.Count)].tour);
         }
         // 3 etap ewolucji: reprodukcja
-        public Population genNewPop(int n) // generuje nowa populacje n elementowa 
+        public Population genNewPop(int n, Population bestPopulation) // generuje nowa populacje n elementowa jako krzyzowanie 2 osobnikow
         {
             List<Tour> p = new List<Tour>();
-
-            for (int i = 0; i < n; ++i)
+            foreach (var pop in bestPopulation.tourList) // krzyżuję z najlepszymi drogami
             {
-                // warunek mutacji nr 1 - możliwość mutacji 80% (z założeń zadania):
-                if (r.NextDouble() > TSPGenetic.canMutRate) continue;  // nie mutuję
-
-                Tour t = selectRandomTour().cross(selectRandomTour()); // wybieram 2 drogi, krzyżuję je ze sobą
-                foreach (int c in t.tour) // mutuję 
+                // warunek mutacji nr 1 - możliwość krzyżowania 80% (z założeń zadania):
+                if (r.NextDouble() < TSPGenetic.canMutRate)
                 {
-                    t = t.mutation(); 
+                    Tour randomTour = selectRandomTour();
+                    Tour[] t = pop.cross(randomTour);
+                    t[0] = t[0].mutation();
+                    t[1] = t[1].mutation();
+                    tourList.Remove(randomTour);
+                    p.Add(t[0]);
+                    p.Add(t[1]);
                 }
-                p.Add(t);
             }
+            while(tourList.Count > 1) { // krzyżuję z pozostałymi drogami
+                // warunek mutacji nr 1 - możliwość krzyżowania 80% (z założeń zadania):
+                if (r.NextDouble() < TSPGenetic.canMutRate)
+                {
+                    // nie mutuję
+                    Tour randomTour = selectRandomTour(); // losuję drogę inną niż aktualnie rozpatrywana
+                    while (randomTour == tourList[0]) randomTour = selectRandomTour();
+                    Tour[] t = tourList[0].cross(randomTour); // wybieram 2 drogi, krzyżuję je ze sobą
+                    // mutuję geny:
+                    t[0] = t[0].mutation();
+                    t[1] = t[1].mutation();
+                    tourList.Remove(randomTour); // usuwam z listy populacji stare osobniki
+                    tourList.Remove(tourList[0]);
+                    if (p.Count == n) break;
+                    p.Add(t[0]); // dodaję nowe osobniki do nowej populacji
+                    if (p.Count == n) break;
+                    p.Add(t[1]);
+                }
+                else // nie krzyżuję
+                {
+                    if (p.Count == n) break;
+                    p.Add(tourList[0]);
+                    tourList.Remove(tourList[0]);
+                }
+            }
+            if(tourList.Count == 1) p.Add(tourList[0]);
 
             return new Population(p);
         }
@@ -67,7 +94,8 @@ namespace TSP_Tabu_Search
                 best.Add(tmp.findBest()); // najlepsza do listy
                 tmp = new Population(tmp.tourList.Except(best).ToList()); // nowa populacja bez najlepszego
             }
-
+            tourList = tmp.tourList;
+            findBestDistance();
             return new Population(best);
         }
 
@@ -84,7 +112,7 @@ namespace TSP_Tabu_Search
         public Population createNewPopulation() // nowa populacja = N najlepszych dróg + nowe drogi (rozmiar populacji - N najlepszych)
         {
             Population bestTours = findNBestTours(TSPGenetic.numOfBestRoads); // znajduję N najlepszych dróg
-            Population newTours = genNewPop(TSPGenetic.popSize - TSPGenetic.numOfBestRoads); // nowa populacja, wielkosc populacji - ilosc "najlepszych" dróg
+            Population newTours = genNewPop(TSPGenetic.popSize - TSPGenetic.numOfBestRoads, bestTours); // nowa populacja, wielkosc populacji - ilosc "najlepszych" dróg
             return new Population(bestTours.tourList.Concat(newTours.tourList).ToList()); // połączenie powyższych populacji i zwrócenie sumy
         }
     }

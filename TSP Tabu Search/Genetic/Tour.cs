@@ -30,7 +30,7 @@ namespace TSP_Tabu_Search
             return new Tour(newTour); // zwracam nową losową drogę
         }
 
-        public Tour cross(Tour otherTour)// wycina i łączy dwa chromosomy
+        public Tour[] cross(Tour otherTour)// wycina i łączy dwa chromosomy
         {
             int i = r.Next(0, otherTour.tour.Count);
             int j = r.Next(i, otherTour.tour.Count);
@@ -40,7 +40,16 @@ namespace TSP_Tabu_Search
             List<int> newTourAfterCrossover = fromOtherTour.Take(i).ToList(); // c => biorę A-i z drugiej drogi (przesłanej jako argument)
             newTourAfterCrossover = newTourAfterCrossover.Concat(fromCurrentTour).ToList(); // c += i-j z aktualnej (lokalnej) drogi
             newTourAfterCrossover = newTourAfterCrossover.Concat(fromOtherTour.Skip(i)).ToList(); // c += j-B z drugiej drogi (argument)
-            return new Tour(newTourAfterCrossover); // gotowa nowa droga, zwracam
+            Tour[] tours = new Tour[2]; 
+            tours[0] = new Tour(newTourAfterCrossover);
+            // teraz druga droga (drugi potomek), odwrotnie jak w poprzednim przypadku
+            fromCurrentTour = otherTour.tour.GetRange(i, numOfElements); // wycinam i-j
+            fromOtherTour = tour.Except(fromCurrentTour).ToList(); // A-B bez i-j
+            newTourAfterCrossover = fromOtherTour.Take(i).ToList(); // c => biorę A-i z drugiej drogi (przesłanej jako argument)
+            newTourAfterCrossover = newTourAfterCrossover.Concat(fromCurrentTour).ToList(); // c += i-j z aktualnej (lokalnej) drogi
+            newTourAfterCrossover = newTourAfterCrossover.Concat(fromOtherTour.Skip(i)).ToList(); // c += j-B z drugiej drogi (argument)
+            tours[1] = new Tour(newTourAfterCrossover);
+            return tours; // gotowa nowa droga, zwracam
         }
 
         public Tour mutation() // jeśli następuje mutacja (prawdop. 1%), zamieniam miejscami dwa geny
