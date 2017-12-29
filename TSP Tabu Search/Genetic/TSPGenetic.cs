@@ -24,7 +24,7 @@ namespace TSP_Tabu_Search
         {
             popSize = populationSize;// rozmiar populacji, wpływa na prędkość działania oraz wynik
             numOfBestRoads = popSize / 10; // "Strategia elitarna" - zachowuje najlepsze geny
-            maxTimeInSec = maxTime; // ------------------------------------
+            maxTimeInSec = maxTime;
             if (isAsimetric == false) // jeśli wczytano problem symetryczny
             {
                 numCities = problem.NodeProvider.CountNodes();
@@ -32,7 +32,7 @@ namespace TSP_Tabu_Search
                 {
                     cityNodes.Add((Node2D) c);
                 }
-                nodesAsTab = new int[numCities, numCities]; // tablic na odległości między miastami (już obliczone)
+                nodesAsTab = new int[numCities, numCities]; // tablica na odległości między miastami (już obliczone)
                 calcDistances(); // wyliczam dystanse, aby nie liczyc ich kilka razy
             }
             else // jeśli wczytano problem asymetryczny
@@ -43,22 +43,10 @@ namespace TSP_Tabu_Search
             Tour firstTour = generateTour(numCities); // losuję pierwszą drogę
             Population population = Population.randomPopulation(firstTour, popSize); // na jej podstawie losuję populację
 
-            bool better = true;
             DateTime startTime = DateTime.Now;
-            while ((DateTime.Now - startTime).TotalSeconds <= maxTimeInSec)
+            while ((DateTime.Now - startTime).TotalSeconds <= maxTimeInSec) // główna pętla programu
             {
-
-                if (better)
-                {
-                    saveToFile(population);
-                    File.AppendAllText("1.txt", "\r\n" + (DateTime.Now - startTime).TotalSeconds.ToString());
-                }
-
-                    better = false;
-                double oldBestTour = population.bestDistance;
-
                 population = population.createNewPopulation();
-                if (population.bestDistance < oldBestTour) better = true;
             }
             return prepareStatus(population);
         }
@@ -72,7 +60,7 @@ namespace TSP_Tabu_Search
             return new Tour(t);
         }
 
-        public static void calcDistances()
+        public static void calcDistances() // dustans dla danych asymetrycznych
         {
             for (int i = 0; i < numCities; i++)
             {
@@ -90,7 +78,7 @@ namespace TSP_Tabu_Search
             }
         }
 
-        public string prepareStatus(Population p)
+        public string prepareStatus(Population p) // status - do wyświetlenia drogi oraz kosztu
         {
             string status = "";
             Tour best = p.findBest();
@@ -103,12 +91,6 @@ namespace TSP_Tabu_Search
             status += best.tour[0].ToString();
             return status;
 
-        }
-        public static void saveToFile(Population p) // to collect data
-        {
-            Tour best = p.findBest();
-            string x =  "\r\nBest found distance: " + best.distance;
-            File.AppendAllText("1.txt", x);
         }
     }
 }

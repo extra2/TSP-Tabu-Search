@@ -24,7 +24,7 @@ namespace TSP_Tabu_Search
                 i--;
                 int j = r.Next(i + 1); // losuję wierzchołek (+1, bo naxValue in <0,n+1)
                 int backup = newTour[j];
-                newTour[j] = newTour[i]; // zamieniam go z innym (z n)
+                newTour[j] = newTour[i]; // zamieniam go z innym
                 newTour[i] = backup;
             } // mam nową drogę
             return new Tour(newTour); // zwracam nową losową drogę
@@ -49,7 +49,7 @@ namespace TSP_Tabu_Search
             newTourAfterCrossover = newTourAfterCrossover.Concat(fromCurrentTour).ToList(); // c += i-j z aktualnej (lokalnej) drogi
             newTourAfterCrossover = newTourAfterCrossover.Concat(fromOtherTour.Skip(i)).ToList(); // c += j-B z drugiej drogi (argument)
             tours[1] = new Tour(newTourAfterCrossover);
-            return tours; // gotowa nowa droga, zwracam
+            return tours; // mam 2 nowych potomków, zwracam
         }
 
         public Tour mutation() // jeśli następuje mutacja (prawdop. 1%), zamieniam miejscami dwa geny

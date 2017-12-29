@@ -15,8 +15,6 @@ namespace TSP_Tabu_Search
             tourList = l;
             bestDistance = findBestDistance();
         }
-
-        // Functionality
         public static Population randomPopulation(Tour t, int n) // tworzę populację losowych dróg
         {
             List<Tour> tmp = new List<Tour>();
@@ -27,7 +25,7 @@ namespace TSP_Tabu_Search
             return new Population(tmp); // zwracam populację
         }
 
-        private double findBestDistance()
+        private double findBestDistance() // najmniejszy dystans
         {
             return tourList.Min(t => t.distance);
         }
@@ -39,8 +37,8 @@ namespace TSP_Tabu_Search
         // 3 etap ewolucji: reprodukcja
         public Population genNewPop(int n, Population bestPopulation) // generuje nowa populacje n elementowa jako krzyzowanie 2 osobnikow
         {
-            List<Tour> p = new List<Tour>();
-            foreach (var pop in bestPopulation.tourList) // krzyżuję z najlepszymi drogami
+            List<Tour> p = new List<Tour>(); // lista dla nowej populacji
+            foreach (var pop in bestPopulation.tourList) // krzyżuję z najlepszymi osobnikami
             {
                 // warunek mutacji nr 1 - możliwość krzyżowania 80% (z założeń zadania):
                 if (r.NextDouble() < TSPGenetic.canMutRate)
@@ -79,9 +77,9 @@ namespace TSP_Tabu_Search
                     tourList.Remove(tourList[0]);
                 }
             }
-            if(tourList.Count == 1) p.Add(tourList[0]);
+            if(tourList.Count == 1) p.Add(tourList[0]); // jeśli zachowała się jedna droga, dodaję ją
 
-            return new Population(p);
+            return new Population(p); // nowa populacja
         }
 
         public Population findNBestTours(int n) // szuka n najlepszych drog w obecnej populacji
@@ -95,7 +93,7 @@ namespace TSP_Tabu_Search
                 tmp = new Population(tmp.tourList.Except(best).ToList()); // nowa populacja bez najlepszego
             }
             tourList = tmp.tourList;
-            findBestDistance();
+            findBestDistance(); // zmodyfikowałem populację, więc muszę wyszukać nową najlepszą drogę
             return new Population(best);
         }
 
@@ -106,7 +104,7 @@ namespace TSP_Tabu_Search
                 if (t.distance == bestDistance)
                     return t;
             }
-            return null; // jesli do tego dojdzie, to cos jest zle
+            return null; // jesli do tego dojdzie, to cos jest nie tak (musi zostać gdyż funkcja musi coś zwrócić)
         }
 
         public Population createNewPopulation() // nowa populacja = N najlepszych dróg + nowe drogi (rozmiar populacji - N najlepszych)
